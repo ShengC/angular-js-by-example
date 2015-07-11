@@ -30,7 +30,6 @@ object Html {
         ),
         p( cls := "text-info" )("No of guesses", span( cls := "badge" )("{{noOfTries}}"))
       )
-      //,script("guess.Run()")
     )
     
     val all = html (hd, bd)

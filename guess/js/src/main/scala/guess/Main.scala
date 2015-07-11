@@ -13,10 +13,3 @@ object Main {
   val app = Angular.module("app", Seq.empty)
   app.controller[Controller]
 }
-
-@JSExport
-object Run {
-  val app = Angular.module("app", Seq.empty)
-  
-  app.controller[Controller]
-}
