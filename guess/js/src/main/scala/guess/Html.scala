@@ -32,7 +32,7 @@ object Html {
       )
     )
     
-    val all = html (hd, bd)
+    val all = "<!DOCTYPE html>" + html (hd, bd)
 }
 
 object AngularTags {

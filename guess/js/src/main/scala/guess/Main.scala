@@ -8,7 +8,7 @@ import com.greencatsoft.angularjs._
 
 @JSExport
 object Main {  
-  dom.document.write(Html.all.render)
+  dom.document.write(Html.all)
   
   val app = Angular.module("app", Seq.empty)
   app.controller[Controller]
