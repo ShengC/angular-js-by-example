@@ -32,28 +32,36 @@ class WorkoutController(scope: WorkoutScope, interval: Interval, timeout: Timeou
     
     val detail = workoutPlan.exercises.head
     workoutPlan = workoutPlan.copy( exercises = workoutPlan.exercises.tail )
-    startExercise(detail).`then`((_: js.Any) => {
-      if (workoutPlan.exercises.isEmpty) {
-        console.log("Workout complete!")
-      } else {
-        val detail = workoutPlan.exercises.head
-        workoutPlan = workoutPlan.copy( exercises = workoutPlan.exercises.tail )
-        startExercise(detail)
-      }      
-    }: js.Any)
+    startExercise(detail)
   }
   
   def startExercise(plan: ExerciseDetail) = {
-    scope.currentExercise = plan
-    scope.currentExerciseDuration = 0
-    val promise = interval.apply(
-      () => { 
-        scope.currentExerciseDuration += 1
-      },
-      1000
-    )
+    def go(plan: ExerciseDetail): Promise = {
+      scope.currentExercise = plan
+      scope.currentExerciseDuration = 0
+      val promise = interval.apply(
+        () => { 
+          scope.currentExerciseDuration += 1
+        },
+        1000
+      )
     
-    timeout.apply(() => { interval.cancel(promise) }, scope.currentExercise.duration.toMillis.toInt + 1000)
+      timeout.apply(() => { interval.cancel(promise) }, scope.currentExercise.duration.toMillis.toInt + 1000)      
+    }
+    
+    def run(plan: ExerciseDetail): js.Any = {
+      go(plan).`then`((_: js.Any) => {
+        if (workoutPlan.exercises.nonEmpty) {
+          val detail = workoutPlan.exercises.head
+          workoutPlan = workoutPlan.copy( exercises = workoutPlan.exercises.tail )
+          run( detail )
+        } else {
+          console.log("Workout complete!")
+        }
+      }: js.Any)
+    }
+    
+    run(plan)
   }
   
   def init(): Unit = {
