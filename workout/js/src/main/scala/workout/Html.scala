@@ -13,9 +13,9 @@ object Html {
         tags2.title("7 Minute Workout"),
         meta(name := "description", content := ""),
         meta(name := "viewport", content := "width=device-width, initial-scale=1"),
-        link(href := "static/css/bootstrap.min.css"),
-        link(href := "static/css/roboto.css"),
-        link(href := "static/css/app.css")                
+        link( rel := "stylesheet", `type` := "text/css", href := "static/css/bootstrap.min.css" ),
+        link( rel := "stylesheet", `type` := "text/css", href := "static/css/roboto.css" ),
+        link( rel := "stylesheet", `type` := "text/css", href := "static/css/app.css" )                
       ),
       body(`ng-app` := "app", `ng-controller` := "WorkoutController")(
         div(cls := "navbar navbar-default navbar-fixed-top top-navbar")(
@@ -26,14 +26,36 @@ object Html {
           )    
         ),
         div(cls := "container body-content app-container")(
-          pre("Current Exercise: {{controller.toJson()}}"),
-          pre("Time Left: {{controller.span()}}")
-        ),
-        p("{{currentExerciseDuration}}")
+          div(cls := "row")(
+            div(id := "exercise-pane", cls := "col-sm-8 col-sm-offset-2")(
+              div(cls := "row workout-content")(
+                div(cls := "workout-display-div")(
+                  h1("{{controller.title()}}"),
+                  img(cls := "img-responsive", `ng-src` := "{{controller.image()}}" ),
+                  div(cls := "progress time-progress")(
+                    div(
+                      cls := "progress-bar", 
+                      role := "progressbar", 
+                      aria.valuenow := "0", 
+                      aria.valuemin := "0",
+                      aria.valuemax := "{{controller.duration()}}",
+                      `ng-style` := "{ 'width': (currentExerciseDuration / controller.duration()) * 100 + '%' }"
+                    )    
+                  )                  
+                ),
+                h1("Time Remaining: {{controller.span()}}")
+              )    
+            )
+          )              
+//          pre("Current Exercise: {{controller.toJson()}}"),
+//          pre("Time Left: {{controller.span()}}")
+        )
       )
     )
   }
   
   val `ng-app` = "ng-app".attr
   val `ng-controller` = "ng-controller".attr
+  val `ng-src` = "ng-src".attr
+  val `ng-style` = "ng-style".attr
 }

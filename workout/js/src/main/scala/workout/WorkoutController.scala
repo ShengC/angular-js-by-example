@@ -85,12 +85,28 @@ class WorkoutController(scope: WorkoutScope, interval: Interval, timeout: Timeou
     (scope.currentExercise.duration.toSeconds - scope.currentExerciseDuration).toInt
   
   @JSExport
+  def percentage() =
+    s"""{ 'width': ${(scope.currentExerciseDuration * 100 / duration()) + "%"} }"""    
+    
+  @JSExport
+  def duration() = 
+    scope.currentExercise.duration.toSeconds.toInt
+    
+  @JSExport
   def toJson() = {
     import upickle._
     import upickle.default._
     
     write(scope.currentExercise)
   }
+    
+  @JSExport
+  def title() = 
+    scope.currentExercise.detail.title
+  
+  @JSExport
+  def image() = 
+    scope.currentExercise.detail.image
     
   private var workoutPlan: WorkoutPlan = _
   private var restExercise: ExerciseDetail = _
