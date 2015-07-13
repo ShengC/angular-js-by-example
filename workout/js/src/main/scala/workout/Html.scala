@@ -47,8 +47,6 @@ object Html {
               )    
             )
           )              
-//          pre("Current Exercise: {{controller.toJson()}}"),
-//          pre("Time Left: {{controller.span()}}")
         )
       )
     )
