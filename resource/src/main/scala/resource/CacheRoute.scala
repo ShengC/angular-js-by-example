@@ -17,15 +17,19 @@ trait Route { self =>
   }
 }
 
+object PathList {
+  def unapply(path: Path): Option[List[String]] = Some(path.toList)  
+}
+
 class CacheRoute extends Route {
   private val cache = ResourceCache()
   
   val svc: HttpService = HttpService {
     case req if req.pathInfo.startsWith("/static") =>
       cache.getResource("", req.pathInfo, req)
-    case req @ GET -> Root / path =>
-      val pth = if (path.contains('.')) path else path + ".html"
-      cache.getResource("/views", pth, req)
+    case req @ GET -> _ / _ ~ "html" =>
+      val path = req.pathInfo
+      cache.getResource("/views", path, req)      
     case req if req.pathInfo.endsWith("/") =>
       svc(req.withPathInfo(req.pathInfo + "index.html")).map(_.getOrElse(NotFound(req.pathInfo).run))
   }

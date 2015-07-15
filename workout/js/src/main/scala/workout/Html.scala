@@ -14,7 +14,7 @@ object Html {
         meta(name := "description", content := ""),
         meta(name := "viewport", content := "width=device-width, initial-scale=1"),
         link( rel := "stylesheet", `type` := "text/css", href := "static/css/bootstrap.min.css" ),
-        link( rel := "stylesheet", `type` := "text/css", href := "static/css/roboto.css" ),
+        link( rel := "stylesheet", `type` := "text/css", href := "//fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700" ),
         link( rel := "stylesheet", `type` := "text/css", href := "static/css/app.css" )                
       ),
       body(`ng-app` := "app", `ng-controller` := "WorkoutController")(
@@ -26,27 +26,7 @@ object Html {
           )    
         ),
         div(cls := "container body-content app-container")(
-          div(cls := "row")(
-            div(id := "exercise-pane", cls := "col-sm-8 col-sm-offset-2")(
-              div(cls := "row workout-content")(
-                div(cls := "workout-display-div")(
-                  h1("{{controller.title()}}"),
-                  img(cls := "img-responsive", `ng-src` := "{{controller.image()}}" ),
-                  div(cls := "progress time-progress")(
-                    div(
-                      cls := "progress-bar", 
-                      role := "progressbar", 
-                      aria.valuenow := "0", 
-                      aria.valuemin := "0",
-                      aria.valuemax := "{{controller.duration()}}",
-                      `ng-style` := "{ 'width': (currentExerciseDuration / controller.duration()) * 100 + '%' }"
-                    )    
-                  )                  
-                ),
-                h1("Time Remaining: {{controller.span()}}")
-              )    
-            )
-          )              
+          div(`ng-view`)
         )
       )
     )
@@ -56,4 +36,5 @@ object Html {
   val `ng-controller` = "ng-controller".attr
   val `ng-src` = "ng-src".attr
   val `ng-style` = "ng-style".attr
+  val `ng-view` = "ng-view".attr := "ng-view"
 }

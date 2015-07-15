@@ -46,7 +46,7 @@ object CustomServer {
       new CustomServer(address, pf, serverGroup)
     }
     
-    private var address: InetSocketAddress = new InetSocketAddress("localhost", 8080)
+    private var address: InetSocketAddress = new InetSocketAddress("0.0.0.0", 8080)
     private var service: HttpService = Service.empty[Request, Response]
     private var exec: ExecutorService = Strategy.DefaultExecutorService
     private var serverGroup: NIO2SocketServerGroup = NIO2SocketServerGroup()

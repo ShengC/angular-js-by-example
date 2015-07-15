@@ -14,7 +14,7 @@ trait WorkoutScope extends Scope {
 }
 
 @injectable("WorkoutController")
-class WorkoutController(scope: WorkoutScope, interval: Interval, timeout: Timeout) extends AbstractController[WorkoutScope](scope) {
+class WorkoutController(scope: WorkoutScope, interval: Interval, timeout: Timeout, location: Location) extends AbstractController[WorkoutScope](scope) {
   
   import org.scalajs.dom.console
   
@@ -57,6 +57,7 @@ class WorkoutController(scope: WorkoutScope, interval: Interval, timeout: Timeou
           run( detail )
         } else {
           console.log("Workout complete!")
+          location.path("/finish")
         }
       }: js.Any)
     }

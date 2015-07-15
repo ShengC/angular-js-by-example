@@ -6,10 +6,14 @@ import org.scalajs.dom
 import com.greencatsoft.angularjs._
 
 @JSExport
-object Main {  
-  dom.document.write(Html())
+object Main {
+  val html = Html()
   
-  val app = Angular.module("app", Seq.empty)
+  dom.document.write(html)
+  
+  val app = Angular.module("app", Seq("ngRoute"))
+  
+  app.config[WorkoutConfig]
   
   app.controller[WorkoutController]  
 }

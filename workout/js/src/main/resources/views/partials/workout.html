@@ -1,0 +1,12 @@
+<div class="row">
+	<div id="exercise-pane" class="col-sm-8 col-sm-offset-2">
+		<div class="workout-display-div">
+			<h1>{{controller.title()}}</h1>
+			<img class="img-responsive" src="{{controller.image()}}" />
+			<div class="progress time-progress">
+				<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{controller.duration()}}" ng-style="{'width': (currentExerciseDuration / controller.duration()) * 100 + '%'}">					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
