@@ -33,9 +33,9 @@ package object workout {
             description = "A jumping jack or star jump, also called side-straddle hop is a physical jumping exercise.",
             image = "static/img/JumpingJacks.png",
             videos = Seq(
-              "www.youtube.com/embed/dmYwZH_BNd0", 
-              "www.youtube.com/embed/BABOdJ-2Z6o", 
-              "www.youtube.com/embed/c4DAnQ6DtF8"                  
+              "//www.youtube.com/embed/dmYwZH_BNd0", 
+              "//www.youtube.com/embed/BABOdJ-2Z6o", 
+              "//www.youtube.com/embed/c4DAnQ6DtF8"                  
             ),
             procedure = Some(""""Assume an erect position, with feet together and arms at your side.
                             |Slightly bend your knees, and propel yourself a few inches into the air.
@@ -52,8 +52,8 @@ package object workout {
             description = "A wall sit, also known as a Roman Chair, is an exercise done to strengthen the quadriceps muscles.",
             image = "static/img/wallsit.png",
             videos = Seq(
-              "www.youtube.com/embed/y-wV4Venusw", 
-              "www.youtube.com/embed/MMV3v4ap4ro"                
+              "//www.youtube.com/embed/y-wV4Venusw", 
+              "//www.youtube.com/embed/MMV3v4ap4ro"                
             ),
             procedure = Some("""Place your back against a wall with your feet shoulder width apart and a little ways out from the wall.
                               |Then, keeping your back against the wall, lower your hips until your knees form right angles.""".stripMargin)
@@ -67,11 +67,11 @@ package object workout {
             description = "A push-up is a common exercise performed in a prone position by raising and lowering the body using the arms",
             image = "static/img/pushup.png",
             videos = Seq(
-              "https://www.youtube.com/watch?v=Eh00_rniF8E", 
-              "https://www.youtube.com/watch?v=ZWdBqFLNljc", 
-              "https://www.youtube.com/watch?v=UwRLWMcOdwI", 
-              "https://www.youtube.com/watch?v=ynPwl6qyUNM", 
-              "https://www.youtube.com/watch?v=OicNTT2xzMI"                  
+              "//www.youtube.com/watch?v=Eh00_rniF8E", 
+              "//www.youtube.com/watch?v=ZWdBqFLNljc", 
+              "//www.youtube.com/watch?v=UwRLWMcOdwI", 
+              "//www.youtube.com/watch?v=ynPwl6qyUNM", 
+              "//www.youtube.com/watch?v=OicNTT2xzMI"                  
             ),
             variations = Seq(
               "Planche push-ups", 
@@ -92,8 +92,8 @@ package object workout {
             description = "The basic crunch is a abdominal exercise in a strength-training program.",
             image = "static/img/crunches.png",
             videos = Seq(
-              "www.youtube.com/embed/Xyd_fa5zoEU", 
-              "www.youtube.com/embed/MKmrqcoCZ-M"                
+              "//www.youtube.com/embed/Xyd_fa5zoEU", 
+              "//www.youtube.com/embed/MKmrqcoCZ-M"                
             ),
             procedure = Some("""Lie on your back with your knees bent and feet flat on the floor, hip-width apart.
                               |Place your hands behind your head so your thumbs are behind your ears.
@@ -111,7 +111,7 @@ package object workout {
             description = "Step exercises are ideal for building muscle in your lower body.",
             image = "static/img/stepUpOntoChair.jpeg",
             videos = Seq(
-              "www.youtube.com/embed/aajhW7DD1EA"
+              "//www.youtube.com/embed/aajhW7DD1EA"
             ),
             procedure = Some("""Position your chair in front of you.
                               Stand with your feet about hip width apart, arms at your sides.

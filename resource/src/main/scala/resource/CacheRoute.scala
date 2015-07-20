@@ -21,8 +21,8 @@ object PathList {
   def unapply(path: Path): Option[List[String]] = Some(path.toList)  
 }
 
-class CacheRoute extends Route {
-  private val cache = ResourceCache()
+sealed trait CacheRoute extends Route {
+  private[resource] def cache: Cache
   
   val svc: HttpService = HttpService {
     case req if req.pathInfo.startsWith("/static") =>
@@ -35,6 +35,12 @@ class CacheRoute extends Route {
   }
 }
 
+object CacheRoute {
+  def apply(): Route = new CacheRoute { val cache = ResourceCache() }
+  def noCache(): Route = new CacheRoute { val cache = NoCache() }
+  def noCache(base: java.io.File): Route = new CacheRoute { val cache = new NoCache(base) }
+}
+
 class TestRoute extends Route {
   val svc: HttpService = HttpService {
     case GET -> Root / "ping" =>
@@ -45,4 +51,8 @@ class TestRoute extends Route {
   }
   
   implicit lazy val sch = Strategy.DefaultTimeoutScheduler
+}
+
+object TestRoute {
+  def apply(): Route = new TestRoute()
 }

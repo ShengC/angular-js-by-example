@@ -15,6 +15,29 @@ trait Cache {
   def getResource(directory: String, name: String, req: Request): Task[Response]
 }
 
+class NoCache(base: java.io.File) extends Cache {
+  require(base.exists(), "base directory does not exist: " + base.getPath)
+  
+  def getResource(directory: String, name: String, req: Request): Task[Response] = {
+    Task.fork {
+      val file = new java.io.File( base, s"$directory/${name.stripPrefix("/")}" )
+      val fin = (if (file.exists()) new java.io.FileInputStream(file).some else None) orElse Option(getClass.getResourceAsStream(s"$directory/${name.stripPrefix("/")}"))
+      fin map { is =>
+        val src = Process.constant(8 * 1024).toSource.through(io.chunkR(is).mapOut(_.toArray)).onComplete(Process.eval_(Task.delay(is.close())))
+        Ok(src)
+          .putHeaders( `Content-Type`(name.split("\\.").lastOption.flatMap(MediaType.forExtension(_)).getOrElse(MediaType.`application/octet-stream`)) )
+          .putHeaders( `Transfer-Encoding`(TransferCoding.chunked) )
+          .putHeaders( `Cache-Control`(CacheDirective.`no-cache`(), CacheDirective.`no-store`, CacheDirective.`must-revalidate`) )        
+      } getOrElse NotFound(s"file does not exist: ${file.getPath}")
+    }
+  }
+}
+
+object NoCache {
+  def apply(): Cache = 
+    new NoCache(new java.io.File("src/main/resources"))
+}
+
 class ResourceCache extends Cache {
   import ResourceCache._
   
@@ -22,6 +45,7 @@ class ResourceCache extends Cache {
   private val cache = concurrent.TrieMap.empty[String, Array[Byte]]
   
   def getResource(directory: String, name: String, req: Request): Task[Response] = {
+    
     req.headers.get(`If-Modified-Since`).flatMap({ h =>
       val expired = h.date.compare(start) < 0
       if (expired) None

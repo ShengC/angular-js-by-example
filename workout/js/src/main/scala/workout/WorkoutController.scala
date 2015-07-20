@@ -11,6 +11,7 @@ import scala.scalajs.js.annotation._
 trait WorkoutScope extends Scope {
   var currentExercise: ExerciseDetail = js.native
   var currentExerciseDuration: Int = js.native
+  var workoutTimeRemaining: Int = js.native
 }
 
 @injectable("WorkoutController")
@@ -30,8 +31,14 @@ class WorkoutController(scope: WorkoutScope, interval: Interval, timeout: Timeou
       duration = workoutPlan.restBetweenExercise
     )
     
+    scope.workoutTimeRemaining = 
+      if (workoutPlan.exercises.isEmpty) 0
+      else 
+        workoutPlan.exercises.foldLeft(0L)(_ + _.duration.toSeconds).toInt + (workoutPlan.exercises.size - 1) * restExercise.duration.toSeconds.toInt 
+    
     val detail = workoutPlan.exercises.head
     workoutPlan = workoutPlan.copy( exercises = workoutPlan.exercises.tail )
+    
     startExercise(detail)
   }
   
@@ -42,6 +49,7 @@ class WorkoutController(scope: WorkoutScope, interval: Interval, timeout: Timeou
       val promise = interval.apply(
         () => { 
           scope.currentExerciseDuration += 1
+          scope.workoutTimeRemaining -= 1
         },
         1000
       )
@@ -49,8 +57,10 @@ class WorkoutController(scope: WorkoutScope, interval: Interval, timeout: Timeou
       timeout.apply(() => { interval.cancel(promise) }, scope.currentExercise.duration.toMillis.toInt + 1000)      
     }
     
+    def rest(): Promise = go(restExercise)
+    
     def run(plan: ExerciseDetail): js.Any = {
-      go(plan).`then`((_: js.Any) => {
+      go(plan).`then`((_: js.Any) => rest().`then`((_: js.Any) => {
         if (workoutPlan.exercises.nonEmpty) {
           val detail = workoutPlan.exercises.head
           workoutPlan = workoutPlan.copy( exercises = workoutPlan.exercises.tail )
@@ -58,12 +68,16 @@ class WorkoutController(scope: WorkoutScope, interval: Interval, timeout: Timeou
         } else {
           console.log("Workout complete!")
           location.path("/finish")
-        }
-      }: js.Any)
+        }        
+      }))
     }
     
     run(plan)
   }
+  
+//  def totalWorkoutDuration(): Int = {
+//    workoutPlan.exercises.foldLeft(0)(_ + _.duration.toSeconds.toInt)
+//  }
   
   def init(): Unit = {
     startWorkout()
@@ -109,6 +123,24 @@ class WorkoutController(scope: WorkoutScope, interval: Interval, timeout: Timeou
   def image() = 
     scope.currentExercise.detail.image
     
+  @JSExport
+  def description() = 
+    scope.currentExercise.detail.description
+    
+  @JSExport
+  def procedure(): js.UndefOr[String] = {
+    import js.JSConverters._
+    
+    scope.currentExercise.detail.procedure.orUndefined
+  }
+   
+  @JSExport
+  def videos() = {
+    import js.JSConverters._
+    
+    scope.currentExercise.detail.videos.toJSArray
+  }
+  
   private var workoutPlan: WorkoutPlan = _
   private var restExercise: ExerciseDetail = _
   

@@ -16,4 +16,6 @@ object Main {
   app.config[WorkoutConfig]
   
   app.controller[WorkoutController]  
+  
+  app.filter[WorkoutFilter]
 }
