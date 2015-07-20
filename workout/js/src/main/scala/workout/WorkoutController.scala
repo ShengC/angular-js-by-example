@@ -141,6 +141,16 @@ class WorkoutController(scope: WorkoutScope, interval: Interval, timeout: Timeou
     scope.currentExercise.detail.videos.toJSArray
   }
   
+  @JSExport
+  def name() = {
+    scope.currentExercise.detail.name
+  }
+  
+  @JSExport
+  def nextTitle() = {
+    this.workoutPlan.exercises.head.detail.title
+  }
+  
   private var workoutPlan: WorkoutPlan = _
   private var restExercise: ExerciseDetail = _
   
