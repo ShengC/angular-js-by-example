@@ -18,7 +18,7 @@ lazy val common = Seq(
 def jsCommon(nm: String) = Seq(
   libraryDependencies := { libraryDependencies.value.filterNot(_.organization == "org.http4s") },
   libraryDependencies ++= Seq(
-    "com.greencatsoft" %%% "scalajs-angular" % "0.5-SNAPSHOT",
+    "com.greencatsoft" %%% "scalajs-angular" % "0.5-SNAPSHOT" changing(),
     "com.lihaoyi" %%% "scalatags" % "0.5.2"
   ),
   (artifactPath in fastOptJS) in Compile := { baseDirectory.value / "src/main/resources" / s"static/js/$nm-dev.js" },

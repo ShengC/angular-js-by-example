@@ -3,7 +3,7 @@
 	</div>
 	<div id="exercise-pane" class="col-sm-7">
 		<div class="workout-display-div">
-			<h4>Workout Remaining - {{workoutTimeRemaining.toString() | secondsToTime}}</h4>
+			<h4>Workout Remaining - {{workoutTimeRemaining | secondsToTime}}</h4>
 		
 			<h1>{{controller.title()}}</h1>
 			<img class="img-responsive" src="{{controller.image()}}" />
@@ -47,8 +47,7 @@
 			<div class="panel-heading">
 				<h3 class="panel-title">Steps</h3>
 			</div>
-			<div class="panel-body">
-				{{controller.procedure()}}
+			<div class="panel-body" ng-bind-html="controller.procedure() | myLineBreakFilter">
 			</div>
 		</div>
 	</script>>

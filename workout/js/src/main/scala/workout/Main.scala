@@ -11,11 +11,13 @@ object Main {
   
   dom.document.write(html)
   
-  val app = Angular.module("app", Seq("ngRoute"))
+  val app = Angular.module("app", Seq("ngRoute", "ngSanitize"))
   
   app.config[WorkoutConfig]
   
   app.controller[WorkoutController]  
   
   app.filter[WorkoutFilter]
+  
+  app.filter[LineBreakFilter]
 }
