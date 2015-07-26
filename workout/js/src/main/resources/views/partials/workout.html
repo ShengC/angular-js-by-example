@@ -2,6 +2,14 @@
 	<div id="description-panel" class="col-sm-2" ng-include="'description-panel.html'">
 	</div>
 	<div id="exercise-pane" class="col-sm-7">
+		<span ng-controller="WorkoutAudioController">
+			<audio media-player="ticksAudio" loop autoplay src="static/content/tick10s.mp3"></audio>
+			<audio media-player="nextUpAudio" src="static/content/nextup.mp3"></audio>
+			<audio media-player="nextUpExerciseAudio" playlist="exercisesAudio"></audio>
+			<audio media-player="halfWayAudio" src="static/content/15seconds.wav"></audio>
+			<audio media-player="aboutToCompleteAudio" src="static/content/321.wav"></audio>
+		</span>
+		
 		<div class="workout-display-div">
 			<h4>Workout Remaining - {{workoutTimeRemaining | secondsToTime}}</h4>
 		
@@ -43,10 +51,10 @@
 				{{controller.description()}}
 			</div>
 		</div>
-		<div class="panel panel-default">
+		<div class="panel panel-default" ng-if="controller.procedure() != undefined">
 			<div class="panel-heading">
 				<h3 class="panel-title">Steps</h3>
-			</div>
+			</div>		
 			<div class="panel-body" ng-bind-html="controller.procedure() | myLineBreakFilter">
 			</div>
 		</div>

@@ -6,6 +6,7 @@ package object workout {
     title: String, 
     description: String, 
     image: String, 
+    nameSound: String = null,
     videos: Seq[String] = Seq.empty,
     variations: Seq[String] = Seq.empty,
     procedure: Option[String] = None)
@@ -32,6 +33,7 @@ package object workout {
             title = "Jumping Jacks",
             description = "A jumping jack or star jump, also called side-straddle hop is a physical jumping exercise.",
             image = "static/img/JumpingJacks.png",
+            nameSound = "content/jumpingjacks.wav",
             videos = Seq(
               "//www.youtube.com/embed/dmYwZH_BNd0", 
               "//www.youtube.com/embed/BABOdJ-2Z6o", 
@@ -51,6 +53,7 @@ package object workout {
             title = "Wall Sit",
             description = "A wall sit, also known as a Roman Chair, is an exercise done to strengthen the quadriceps muscles.",
             image = "static/img/wallsit.png",
+            nameSound = "static/content/wallsit.wav",
             videos = Seq(
               "//www.youtube.com/embed/y-wV4Venusw", 
               "//www.youtube.com/embed/MMV3v4ap4ro"                
@@ -66,12 +69,13 @@ package object workout {
             title = "Push Up",
             description = "A push-up is a common exercise performed in a prone position by raising and lowering the body using the arms",
             image = "static/img/pushup.png",
+            nameSound = "static/content/pushups.wav",
             videos = Seq(
-              "//www.youtube.com/watch?v=Eh00_rniF8E", 
-              "//www.youtube.com/watch?v=ZWdBqFLNljc", 
-              "//www.youtube.com/watch?v=UwRLWMcOdwI", 
-              "//www.youtube.com/watch?v=ynPwl6qyUNM", 
-              "//www.youtube.com/watch?v=OicNTT2xzMI"                  
+              "//www.youtube.com/embed/Eh00_rniF8E", 
+              "//www.youtube.com/embed/ZWdBqFLNljc", 
+              "//www.youtube.com/embed/UwRLWMcOdwI", 
+              "//www.youtube.com/embed/ynPwl6qyUNM", 
+              "//www.youtube.com/embed/OicNTT2xzMI"                  
             ),
             variations = Seq(
               "Planche push-ups", 
@@ -91,6 +95,7 @@ package object workout {
             title = "Abdominal Crushes",
             description = "The basic crunch is a abdominal exercise in a strength-training program.",
             image = "static/img/crunches.png",
+            nameSound = "static/content/crunches.wav",
             videos = Seq(
               "//www.youtube.com/embed/Xyd_fa5zoEU", 
               "//www.youtube.com/embed/MKmrqcoCZ-M"                
@@ -110,6 +115,7 @@ package object workout {
             title = "Step Up Onto Chair",
             description = "Step exercises are ideal for building muscle in your lower body.",
             image = "static/img/stepUpOntoChair.jpeg",
+            nameSound = "static/content/stepup.wav",
             videos = Seq(
               "//www.youtube.com/embed/aajhW7DD1EA"
             ),
@@ -126,6 +132,7 @@ package object workout {
             title = "Squat",
             description = "The squat is a compound, full body exercise that trains primarily the muscles of the thighs, hips, buttocks and quads.",
             image = "static/img/squat.png",
+            nameSound = "static/content/squats.wav",
             videos = Seq(
               "//www.youtube.com/embed/QKKZ9AGYTi4", 
               "//www.youtube.com/embed/UXJrBgI2RxA"                  
@@ -143,7 +150,8 @@ package object workout {
             name = "tricepdips",
             title = "Tricep Dips on Chair",
             description = "A body weight exercise that targets triceps.",
-            image = "static/img/tricedips.jpg",
+            image = "static/img/tricepdips.jpg",
+            nameSound = "static/content/tricepdips.wav",
             videos = Seq(
               "//www.youtube.com/embed/tKjcgfu44sI", 
               "//www.youtube.com/embed/jox1rb5krQI"  
@@ -161,6 +169,7 @@ package object workout {
             title = "Plank",
             description = "The plank (also called a front hold, hover, or abdominal bridge) is an isometric core strength exercise that involves maintaining a difficult position for extended periods of time. ",
             image = "static/img/plank.png",
+            nameSound = "static/content/plank.wav",
             videos = Seq(
               "//www.youtube.com/embed/pSHjTRCQxIw", 
               "//www.youtube.com/embed/TvxNkmjdhMM"
@@ -178,6 +187,7 @@ package object workout {
             title = "High Knees",
             description = "A form exercise that develops strength and endurance of the hip flexors and quads and stretches the hip extensors.",
             image = "static/img/highknees.png",
+            nameSound = "static/content/highknees.wav",
             videos = Seq(
               "//www.youtube.com/embed/OAJ_J3EZkdY", 
               "//www.youtube.com/embed/8opcQdC-V-U"   
@@ -193,6 +203,7 @@ package object workout {
             title = "Lunges",
             description = "Lunges are a good exercise for strengthening, sculpting and building several muscles/muscle groups, including the quadriceps (or thighs), the gluteus maximus (or buttocks) as well as the hamstrings. ",
             image = "static/img/lunges.png",
+            nameSound = "static/content/lunge.wav",
             videos = Seq( "//www.youtube.com/embed/Z2n58m2i4jg" ),
             procedure = Some("""Stand erect with your feet about one shoulder width apart.
                               |Put your hands on your hips, keep your back as straight as possible, relax your shoulders and keep your eyes facing directly ahead.
@@ -209,6 +220,7 @@ package object workout {
             title = "Pushup And Rotate",
             description = "A variation of pushup that requires you to rotate.",
             image = "static/img/pushupNRotate.jpg",
+            nameSound = "static/content/pushupandrotate.wav",
             videos = Seq( "//www.youtube.com/embed/qHQ_E-f5278" ),
             procedure = Some( """Assume the classic pushup position, but as you come up, rotate your body so your right arm lifts up and extends overhead.
                               |Return to the starting position, lower yourself, then push up and rotate till your left hand points toward the ceiling.""".stripMargin )
@@ -221,6 +233,7 @@ package object workout {
             title = "Side Plank",
             description = "A variation to Plank done using one hand only",
             image = "static/img/sideplank.png",
+            nameSound = "static/content/sideplank.wav",
             videos = Seq( "//www.youtube.com/embed/wqzrb67Dwf8", "//www.youtube.com/embed/_rdfjFSFKMY" ),
             procedure = Some( """Lie on your side, in a straight line from head to feet, resting on your forearm.
                               |Your elbow should be directly under your shoulder.

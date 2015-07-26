@@ -10,6 +10,7 @@ import scala.scalajs.js.annotation._
 
 trait WorkoutScope extends Scope {
   var currentExercise: ExerciseDetail = js.native
+  var currentExerciseIndex: Int = js.native
   var currentExerciseDuration: Int = js.native
   var workoutTimeRemaining: Int = js.native
 }
@@ -31,6 +32,7 @@ class WorkoutController(scope: WorkoutScope, interval: Interval, timeout: Timeou
       duration = workoutPlan.restBetweenExercise
     )
     
+    scope.currentExerciseIndex = 0
     scope.workoutTimeRemaining = 
       if (workoutPlan.exercises.isEmpty) 0
       else 
@@ -62,6 +64,7 @@ class WorkoutController(scope: WorkoutScope, interval: Interval, timeout: Timeou
     def run(plan: ExerciseDetail): js.Any = {
       go(plan).`then`((_: js.Any) => rest().`then`((_: js.Any) => {
         if (workoutPlan.exercises.nonEmpty) {
+          scope.currentExerciseIndex += 1
           val detail = workoutPlan.exercises.head
           workoutPlan = workoutPlan.copy( exercises = workoutPlan.exercises.tail )
           run( detail )
@@ -147,12 +150,50 @@ class WorkoutController(scope: WorkoutScope, interval: Interval, timeout: Timeou
   }
   
   @JSExport
-  def nextTitle() = {
-    this.workoutPlan.exercises.head.detail.title
+  def nextTitle(): js.UndefOr[String] = {
+    import js.JSConverters._
+    
+    this.workoutPlan.exercises.headOption.map(_.detail.title).orUndefined
   }
   
-  private var workoutPlan: WorkoutPlan = _
-  private var restExercise: ExerciseDetail = _
+  var workoutPlan: WorkoutPlan = _
+  var restExercise: ExerciseDetail = _
   
   init()
+}
+
+trait WorkoutAudioScope extends WorkoutScope {
+  var exercisesAudio: js.Array[_ <: js.Object] = js.native
+  var nextUpAudio: js.Dynamic = js.native
+  var nextUpExerciseAudio: js.Dynamic = js.native
+  var halfWayAudio: js.Dynamic = js.native
+  var aboutToCompleteAudio: js.Dynamic = js.native
+}
+
+@injectable("WorkoutAudioController")
+class WorkoutAudioController(scope: WorkoutAudioScope, interval: Interval, timeout: Timeout, location: Location) extends WorkoutController(scope, interval, timeout, location) {
+  var workoutPlanwatch: js.Function = scope.`$watch`(() => workoutPlan, (plan: WorkoutPlan) => {
+    import js.JSConverters._
+    
+    scope.exercisesAudio = 
+      plan.exercises.map(d => js.Dynamic.literal("src" -> d.detail.nameSound, "type" -> "audio/wav")).toJSArray
+      
+    workoutPlanwatch.asInstanceOf[js.Function0[js.Any]]()
+  })
+  
+  scope.`$watch`(() => scope.currentExerciseDuration, (d: Int) => {
+    if (d == scope.currentExercise.duration.toSeconds / 2 && scope.currentExercise.detail.name != "rest") {
+      scope.halfWayAudio.play()
+    }
+    else if (d == scope.currentExercise.duration.toSeconds - 3) {
+      scope.aboutToCompleteAudio.play()
+    }
+  })
+  
+  scope.`$watch`(() => scope.currentExercise, (exec: ExerciseDetail) => {
+    if (scope.currentExercise.detail.name == "rest") {
+      timeout.apply(() => scope.nextUpAudio.play(), 2000)
+      timeout.apply(() => scope.nextUpExerciseAudio.play(scope.currentExerciseIndex + 1, true), 3000)
+    }
+  })
 }

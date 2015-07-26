@@ -11,11 +11,13 @@ object Main {
   
   dom.document.write(html)
   
-  val app = Angular.module("app", Seq("ngRoute", "ngSanitize"))
+  val app = Angular.module("app", Seq("ngRoute", "ngSanitize", "mediaPlayer"))
   
   app.config[WorkoutConfig]
   
   app.controller[WorkoutController]  
+  
+  app.controller[WorkoutAudioController]
   
   app.filter[WorkoutFilter]
   
